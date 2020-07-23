@@ -6,8 +6,8 @@ run npm install
 
 cd ios run podInstall
 
-create conFig Dir
-create conFig.js
+create config dir
+create config.js
 
 add the following code
 
