@@ -14,7 +14,7 @@ import pixabaySearch from '../api/pixabaySearch';
 const MetaData = ({likes, views, downloads, tags}) => {
   return (
     <View>
-      <Text>{`like: ${likes}`}</Text>
+      <Text>{`likes: ${likes}`}</Text>
       <Text>{`views: ${views}`}</Text>
       <Text>{`downloads: ${downloads}`}</Text>
       <Text>{`tags: ${tags}`}</Text>
@@ -42,18 +42,7 @@ const User = ({user, userImageURL}) => (
 );
 
 const ImageRenderItem = ({item}) => (
-  <View
-    style={{
-      width: '100%',
-      height: verticalScale(200),
-      marginvertical: scale(10),
-      padding: scale(10),
-      borderTopWidth: verticalScale(0.5),
-      borderBottomWidth: verticalScale(0.5),
-      borderColor: '#a7a7a7',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    }}>
+  <View style={styles.renderItemContainer}>
     <View
       style={{
         height: '100%',
@@ -150,6 +139,17 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: moderateScale(14),
     fontWeight: 'bold',
+  },
+  renderItemContainer: {
+    width: '100%',
+    height: verticalScale(200),
+    marginVertical: scale(10),
+    padding: scale(10),
+    borderTopWidth: verticalScale(0.5),
+    borderBottomWidth: verticalScale(0.5),
+    borderColor: '#a7a7a7',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 export default SearchScreen;
