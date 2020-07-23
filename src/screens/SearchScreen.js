@@ -1,5 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {
+  FlatList,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -8,6 +10,86 @@ import {
 } from 'react-native';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import pixabaySearch from '../api/pixabaySearch';
+
+const MetaData = ({likes, views, downloads, tags}) => {
+  return (
+    <View>
+      <Text>{`like: ${likes}`}</Text>
+      <Text>{`views: ${views}`}</Text>
+      <Text>{`downloads: ${downloads}`}</Text>
+      <Text>{`tags: ${tags}`}</Text>
+    </View>
+  );
+};
+const User = ({user, userImageURL}) => (
+  <View
+    style={{
+      flexDirection: 'row',
+      width: scale(100),
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}>
+    <Image
+      source={{
+        uri: userImageURL
+          ? userImageURL
+          : 'https://source.unsplash.com/user/erondu',
+      }}
+      style={{width: scale(40), height: scale(40), borderRadius: scale(20)}}
+    />
+    <Text>{user}</Text>
+  </View>
+);
+
+const ImageRenderItem = ({item}) => (
+  <View
+    style={{
+      width: '100%',
+      height: verticalScale(200),
+      marginvertical: scale(10),
+      padding: scale(10),
+      borderTopWidth: verticalScale(0.5),
+      borderBottomWidth: verticalScale(0.5),
+      borderColor: '#a7a7a7',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    }}>
+    <View
+      style={{
+        height: '100%',
+        width: '50%',
+        justifyContent: 'space-between',
+      }}>
+      <Image
+        source={{uri: item.previewURL}}
+        style={{width: '100%', height: '70%'}}
+      />
+      <User user={item.user} userImageURL={item.userImageURL} />
+    </View>
+    <MetaData {...item} />
+  </View>
+);
+const ImagesFlatlist = ({images, loadImages}) => (
+  <FlatList
+    data={images}
+    renderItem={ImageRenderItem}
+    keyExtractor={(item) => item.id}
+    style={{width: '100%'}}
+  />
+);
+
+const SearchSection = ({handleSearch, setQuery, query}) => (
+  <Fragment>
+    <TextInput
+      style={styles.searchInput}
+      onChangeText={(text) => setQuery(text)}
+      value={query}
+    />
+    <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+      <Text style={styles.searchButtonText}>search</Text>
+    </TouchableOpacity>
+  </Fragment>
+);
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
@@ -35,23 +117,10 @@ const SearchScreen = () => {
         setQuery={setQuery}
         handleSearch={handleSearch}
       />
-      <Text>{JSON.stringify(images)}</Text>
+      <ImagesFlatlist images={images} />
     </View>
   );
 };
-
-const SearchSection = ({handleSearch, setQuery, query}) => (
-  <Fragment>
-    <TextInput
-      style={styles.searchInput}
-      onChangeText={(text) => setQuery(text)}
-      value={query}
-    />
-    <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
-      <Text style={styles.searchButtonText}>search</Text>
-    </TouchableOpacity>
-  </Fragment>
-);
 
 const styles = StyleSheet.create({
   container: {
@@ -74,6 +143,8 @@ const styles = StyleSheet.create({
     height: verticalScale(30),
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: scale(10),
+    marginBottom: verticalScale(10),
   },
   searchButtonText: {
     color: '#FFF',
