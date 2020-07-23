@@ -65,7 +65,7 @@ const ImagesFlatlist = ({images, loadImages}) => (
   <FlatList
     data={images}
     renderItem={ImageRenderItem}
-    keyExtractor={(item) => item.id}
+    keyExtractor={(item) => item.id.toString()}
     style={{width: '100%'}}
   />
 );
