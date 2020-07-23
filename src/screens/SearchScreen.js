@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import pixabaySearch from '../api/pixabaySearch';
 const SearchScreen = () => {
@@ -6,12 +6,15 @@ const SearchScreen = () => {
     handleSearch();
   }, []);
 
+  const [query, setquery] = useState('');
+  const [page, setPageNumber] = useState(1);
+
   const handleSearch = async () => {
     const images = await pixabaySearch();
     console.log('images', images);
   };
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{flex: 1, alignItems: 'center'}}>
       <Text>Home Screen</Text>
     </View>
   );
