@@ -1,10 +1,14 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {Image, View} from 'react-native';
 
-const DetailScreen = () => {
+const DetailScreen = ({navigation, route}) => {
+  const {largeImageURL} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>DetailScreen</Text>
+      <Image
+        source={{uri: largeImageURL}}
+        style={{width: '90%', height: '100%'}}
+      />
     </View>
   );
 };

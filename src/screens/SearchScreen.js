@@ -1,7 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -10,67 +9,20 @@ import {
 } from 'react-native';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import pixabaySearch from '../api/pixabaySearch';
+import ImageRenderItem from '../components/imageRenderItem';
 
-const MetaData = ({likes, views, downloads, tags}) => {
+const ImagesFlatlist = ({images, loadImages}) => {
   return (
-    <View>
-      <Text>{`likes: ${likes}`}</Text>
-      <Text>{`views: ${views}`}</Text>
-      <Text>{`downloads: ${downloads}`}</Text>
-      <Text>{`tags: ${tags}`}</Text>
-    </View>
+    <FlatList
+      data={images}
+      renderItem={({item}) => <ImageRenderItem item={item} />}
+      keyExtractor={(item) => item.id.toString()}
+      style={{width: '100%'}}
+      onEndReached={loadImages}
+      onEndReachedThreshold={0.8}
+    />
   );
 };
-const User = ({user, userImageURL}) => (
-  <View
-    style={{
-      flexDirection: 'row',
-      alignItems: 'center',
-    }}>
-    <Image
-      source={{
-        uri: userImageURL
-          ? userImageURL
-          : 'https://source.unsplash.com/user/erondu',
-      }}
-      style={{
-        width: scale(40),
-        height: scale(40),
-        borderRadius: scale(20),
-        marginRight: verticalScale(10),
-      }}
-    />
-    <Text>{user}</Text>
-  </View>
-);
-
-const ImageRenderItem = ({item}) => (
-  <View style={styles.renderItemContainer}>
-    <View
-      style={{
-        height: '100%',
-        width: '50%',
-        justifyContent: 'space-between',
-      }}>
-      <Image
-        source={{uri: item.previewURL}}
-        style={{width: '100%', height: '70%'}}
-      />
-      <User user={item.user} userImageURL={item.userImageURL} />
-    </View>
-    <MetaData {...item} />
-  </View>
-);
-const ImagesFlatlist = ({images, loadImages}) => (
-  <FlatList
-    data={images}
-    renderItem={ImageRenderItem}
-    keyExtractor={(item) => item.id}
-    style={{width: '100%'}}
-    onEndReached={loadImages}
-    onEndReachedThreshold={0.8}
-  />
-);
 
 const SearchSection = ({handleSearch, setQuery, query}) => (
   <Fragment>
