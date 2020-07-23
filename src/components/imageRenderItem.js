@@ -33,7 +33,7 @@ const MetaData = ({likes, views, downloads, tags}) => {
       <Text>{`likes: ${likes}`}</Text>
       <Text>{`views: ${views}`}</Text>
       <Text>{`downloads: ${downloads}`}</Text>
-      <Text>{`tags: ${tags}`}</Text>
+      <Text style={{width: 150}}>{`tags: ${tags}`}</Text>
     </View>
   );
 };
