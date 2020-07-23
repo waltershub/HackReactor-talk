@@ -35,6 +35,7 @@ const SearchScreen = () => {
         setQuery={setQuery}
         handleSearch={handleSearch}
       />
+      <Text>{JSON.stringify(images)}</Text>
     </View>
   );
 };
