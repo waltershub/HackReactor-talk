@@ -3,7 +3,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 
-const ImageRenderItem = ({item}) => {
+const ImageRenderItem = ({item, handleTagPress}) => {
   const navigation = useNavigation();
   const {largeImageURL} = item;
   return (
@@ -22,18 +22,27 @@ const ImageRenderItem = ({item}) => {
         />
         <User user={item.user} userImageURL={item.userImageURL} />
       </View>
-      <MetaData {...item} />
+      <MetaData {...item} handleTagPress={handleTagPress} />
     </TouchableOpacity>
   );
 };
 
-const MetaData = ({likes, views, downloads, tags}) => {
+const Tags = ({tags, handleTagPress}) => {
+  const tagsArray = tags.split(', ');
+  return tagsArray.map((tag) => (
+    <Text style={{color: 'blue'}} onPress={() => handleTagPress(tag)} key={tag}>
+      {`#${tag}`}
+    </Text>
+  ));
+};
+
+const MetaData = ({likes, views, downloads, tags, handleTagPress}) => {
   return (
     <View>
       <Text>{`likes: ${likes}`}</Text>
       <Text>{`views: ${views}`}</Text>
       <Text>{`downloads: ${downloads}`}</Text>
-      <Text style={{width: 150}}>{`tags: ${tags}`}</Text>
+      <Tags tags={tags} handleTagPress={handleTagPress}></Tags>
     </View>
   );
 };

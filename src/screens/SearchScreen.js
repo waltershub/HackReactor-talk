@@ -11,11 +11,13 @@ import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import pixabaySearch from '../api/pixabaySearch';
 import ImageRenderItem from '../components/imageRenderItem';
 
-const ImagesFlatlist = ({images, loadImages}) => {
+const ImagesFlatlist = ({images, loadImages, handleTagPress}) => {
   return (
     <FlatList
       data={images}
-      renderItem={({item}) => <ImageRenderItem item={item} />}
+      renderItem={({item}) => (
+        <ImageRenderItem handleTagPress={handleTagPress} item={item} />
+      )}
       keyExtractor={(item) => item.id.toString()}
       style={{width: '100%'}}
       onEndReached={loadImages}
@@ -47,12 +49,20 @@ const SearchScreen = () => {
     getImages([], 1);
   };
 
-  const getImages = async (prevousImages = images, pageNumber = page) => {
-    const searchImages = await pixabaySearch(pageNumber, 10, query);
+  const getImages = async (
+    prevousImages = images,
+    pageNumber = page,
+    searchQuery = query,
+  ) => {
+    const searchImages = await pixabaySearch(pageNumber, 10, searchQuery);
     console.log('serach images', searchImages);
     setPageNumber(pageNumber + 1);
     console.log('prevouseImages', prevousImages);
     setImages(prevousImages.concat(searchImages));
+  };
+
+  const handleTagPress = (tag) => {
+    getImages([], 1, tag);
   };
 
   return (
@@ -65,6 +75,7 @@ const SearchScreen = () => {
       <ImagesFlatlist
         loadImages={() => getImages(images, page)}
         images={images}
+        handleTagPress={handleTagPress}
       />
     </View>
   );
