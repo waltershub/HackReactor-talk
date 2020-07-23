@@ -25,8 +25,6 @@ const User = ({user, userImageURL}) => (
   <View
     style={{
       flexDirection: 'row',
-      width: scale(100),
-      justifyContent: 'space-between',
       alignItems: 'center',
     }}>
     <Image
@@ -35,7 +33,12 @@ const User = ({user, userImageURL}) => (
           ? userImageURL
           : 'https://source.unsplash.com/user/erondu',
       }}
-      style={{width: scale(40), height: scale(40), borderRadius: scale(20)}}
+      style={{
+        width: scale(40),
+        height: scale(40),
+        borderRadius: scale(20),
+        marginRight: verticalScale(10),
+      }}
     />
     <Text>{user}</Text>
   </View>
