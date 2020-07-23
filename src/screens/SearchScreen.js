@@ -67,6 +67,8 @@ const ImagesFlatlist = ({images, loadImages}) => (
     renderItem={ImageRenderItem}
     keyExtractor={(item) => item.id}
     style={{width: '100%'}}
+    onEndReached={loadImages}
+    onEndReachedThreshold={0.8}
   />
 );
 
@@ -109,7 +111,7 @@ const SearchScreen = () => {
         setQuery={setQuery}
         handleSearch={handleSearch}
       />
-      <ImagesFlatlist images={images} />
+      <ImagesFlatlist loadImages={getImages} images={images} />
     </View>
   );
 };
