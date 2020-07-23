@@ -65,7 +65,7 @@ const ImagesFlatlist = ({images, loadImages}) => (
   <FlatList
     data={images}
     renderItem={ImageRenderItem}
-    keyExtractor={(item) => item.id}
+    keyExtractor={(item) => item.id.toString()}
     style={{width: '100%'}}
     onEndReached={loadImages}
     onEndReachedThreshold={0.8}
@@ -90,18 +90,17 @@ const SearchScreen = () => {
   const [page, setPageNumber] = useState(1);
   const [images, setImages] = useState([]);
   const handleSearch = async () => {
-    if (images.length) {
-      setImages([]);
-    }
+    setImages([]);
     setPageNumber(1);
-    getImages();
+    getImages([], 1);
   };
 
-  const getImages = async () => {
-    const searchImages = await pixabaySearch(page, 10, query);
+  const getImages = async (prevousImages = images, pageNumber = page) => {
+    const searchImages = await pixabaySearch(pageNumber, 10, query);
     console.log('serach images', searchImages);
-    setPageNumber(page + 1);
-    setImages(images.concat(searchImages));
+    setPageNumber(pageNumber + 1);
+    console.log('prevouseImages', prevousImages);
+    setImages(prevousImages.concat(searchImages));
   };
 
   return (
@@ -111,7 +110,10 @@ const SearchScreen = () => {
         setQuery={setQuery}
         handleSearch={handleSearch}
       />
-      <ImagesFlatlist loadImages={getImages} images={images} />
+      <ImagesFlatlist
+        loadImages={() => getImages(images, page)}
+        images={images}
+      />
     </View>
   );
 };
